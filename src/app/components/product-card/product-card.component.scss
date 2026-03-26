@@ -1,0 +1,45 @@
+.product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border-color: #007bff;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #1a1a1a;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #007bff;
+    margin: 0;
+  }
+
+  .description {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

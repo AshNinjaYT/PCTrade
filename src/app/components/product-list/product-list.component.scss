@@ -1,0 +1,33 @@
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  margin-top: 2rem;
+
+  p {
+    font-size: 1.2rem;
+    color: #888;
+    font-style: italic;
+  }
+}
+
+.product-grid {
+  display: grid;
+  gap: 3.5rem;
+  padding: 2rem 0;
+  
+  // 1 columna per defecte (mòbil)
+  grid-template-columns: 1fr;
+
+  // 2 columnes en tauletes/pantalles mitjanes
+  @media screen and (min-width: 650px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // 3 columnes en escriptori
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

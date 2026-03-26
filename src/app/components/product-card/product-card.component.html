@@ -1,0 +1,5 @@
+<div class="product-card" role="article" [attr.aria-labelledby]="'title-' + item.id">
+  <h3 [id]="'title-' + item.id">{{ item.name | uppercase }}</h3>
+  <p class="price" aria-label="Precio del producto">{{ item.price | currency : "EUR" }}</p>
+  <p class="description" *ngIf="item.description" aria-label="Descripción del producto">{{ item.description }}</p>
+</div>
