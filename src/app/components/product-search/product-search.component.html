@@ -1,14 +1,25 @@
-<form #searchForm="ngForm" (ngSubmit)="emitSearch()" class="search-form" role="search">
+<form [formGroup]="cercaForm" (ngSubmit)="emitSearch()" class="search-form" role="search">
   <div class="input-group">
-    <input type="text" name="search" [(ngModel)]="searchTerm" #searchModel="ngModel"
-      placeholder="Buscar hardware (ej: RTX 4090)..." minlength="3" class="search-input"
-      (ngModelChange)="onInputChange()" aria-label="Campo de búsqueda de hardware informático">
-    <button type="submit" [disabled]="searchModel.invalid && searchTerm.length > 0" class="search-button"
-      aria-label="Ejecutar búsqueda filtrada">Buscar</button>
+    <input type="text" formControlName="termeCerca"
+      placeholder="Cercar hardware (ex: rtx 4090)..." class="search-input"
+      aria-label="Camp de cerca de hardware informàtic">
+    <button type="submit" [disabled]="cercaForm.invalid" class="search-button"
+      aria-label="Executar cerca filtrada">Cercar</button>
   </div>
 
-  <div *ngIf="searchModel.invalid && (searchModel.dirty || searchModel.touched)" class="error-message">
-    <span *ngIf="searchModel.errors?.['minlength']">Mínimo 3 caracteres para buscar.</span>
-    <span *ngIf="searchModel.errors?.['required']">El campo es obligatorio.</span>
+  <div *ngIf="cercaForm.get('termeCerca')?.invalid && (cercaForm.get('termeCerca')?.dirty || cercaForm.get('termeCerca')?.touched)" class="error-message">
+    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['minlength']">Mínim 3 caràcters per cercar.</span>
+    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['required']">El camp és obligatori.</span>
+    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['prohibit']">No es permet l'ús d'aquesta paraula.</span>
+  </div>
+
+  <div class="filters-group" formArrayName="categoriesArray">
+    <span class="filters-title">Filtres de categories:</span>
+    <div class="checkboxes">
+      <label *ngFor="let obj of categoriesControls; let i = index" class="checkbox-label">
+        <input type="checkbox" [formControlName]="i" />
+        {{ categories[i] }}
+      </label>
+    </div>
   </div>
 </form>
