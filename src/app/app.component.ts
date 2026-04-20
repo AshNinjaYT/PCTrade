@@ -14,9 +14,6 @@ import { PRODUCTS } from './mocks/products-mock';
 })
 export class AppComponent {
   title = 'ioc-angular-pctrade-Achraf';
-<<<<<<< Updated upstream
-}
-=======
   products: Product[] = PRODUCTS;
   filteredProducts: Product[] = PRODUCTS;
 
@@ -30,4 +27,3 @@ export class AppComponent {
     );
   }
 }
->>>>>>> Stashed changes
