@@ -18,8 +18,13 @@ export class ProductSearchComponent implements OnInit {
 
   // Definimos nuestro FormGroup que contendrá todo el estado del formulario reactivo
   cercaForm!: FormGroup;
-  // Categorías estáticas que se mostrarán dinámicamente con FormArray
-  categories = ['Gràfiques', 'Processadors', 'Memòries', 'Emmagatzematge'];
+  // Categorías basadas en la DB completa (100 elementos)
+  categories = [
+    'Procesadores', 'Tarjetas Gráficas', 'Memorias RAM', 'Placas Base',
+    'Almacenamiento SSD', 'Almacenamiento HDD', 'Fuentes de Alimentación',
+    'Cajas', 'Refrigeración', 'Monitores', 'Periféricos',
+    'Accesorios', 'Conectividad'
+  ];
 
   private fb = inject(FormBuilder); // Forma moderna Angular 16+ de inyectar dependencias
   private elementService = inject(ElementService);
