@@ -18,9 +18,13 @@ export class AppComponent {
   filteredProducts: Product[] = PRODUCTS;
 
   constructor() {
+    // Mostramos un mensaje por consola para asegurarnos de que la app arranca bien
     console.log('PCTrade se ha inicializado correctamente. Sistema listo para el intercambio, compra y venta de hardware!');
   }
 
+  // Este método recibe el término escrito por el usuario en la barra de búsqueda.
+  // Filtramos la lista original (products) para obtener solo los que coinciden, y
+  // guardamos el resultado en filteredProducts, que es lo que se muestra en el HTML.
   handleSearch(term: string) {
     this.filteredProducts = this.products.filter(p => 
       p.name.toLowerCase().includes(term.toLowerCase())

@@ -8,6 +8,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
+    
+    // Habilitamos HttpClient para poder hacer peticiones a APIs externas o locales (ej. json-server)
+    // Esto es un requisito imprescindible de Angular 18+ para poder usar HttpClient en nuestros servicios
     provideHttpClient()
   ]
 };
