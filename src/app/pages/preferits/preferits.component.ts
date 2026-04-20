@@ -16,11 +16,13 @@ import { ProductCardComponent } from '../../components/product-card/product-card
         <p>No tienes productos favoritos aún. ¡Explora el catálogo!</p>
       </div>
 
+      <!-- Aquí enlazamos nuestro FormArray general -->
       <form [formGroup]="notesForm" *ngIf="preferitsService.totalPreferits() > 0">
         <div class="preferits-grid" formArrayName="notesList">
           <div class="preferit-item" *ngFor="let prod of preferitsService.preferits(); let i = index">
             <app-product-card [element]="prod"></app-product-card>
             
+            <!-- Usamos formGroupName [i] para enlazar cada textarea dinámicamente -->
             <div class="note-section" [formGroupName]="i">
               <label>Notas para el producto (FormArray):</label>
               <textarea formControlName="nota" placeholder="Ej: Comprar cuando baje a 300€..."></textarea>
@@ -48,6 +50,7 @@ export class PreferitsComponent {
 
   constructor() {
     this.notesForm = this.fb.group({
+      // Declaramos FormArray vacío
       notesList: this.fb.array([])
     });
     
@@ -59,10 +62,12 @@ export class PreferitsComponent {
     }
   }
 
+  // Getter para obtener el FormArray y poder hacer el push()
   get notesList(): FormArray {
     return this.notesForm.get('notesList') as FormArray;
   }
 
+  // Añadimos un grupo de control 'nota' (y su validación si quisiéramos) por cada item
   addNoteControl() {
     this.notesList.push(this.fb.group({ nota: [''] }));
   }

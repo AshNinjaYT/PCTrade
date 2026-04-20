@@ -13,10 +13,13 @@ import { ElementService } from '../../services/element.service';
       <section class="search-section">
         <h2>Catálogo de Hardware</h2>
         <p>Encuentra las mejores piezas para tu próxima build.</p>
+        <!-- Componente buscador. Ya trae internamente la llamada al servicio elementService.cercar() -->
         <app-product-search></app-product-search>
       </section>
 
       <section class="results-section">
+        <!-- Le pasamos la Signal pública asReadonly() al componente listado.
+             El listado automáticamente detectará cambios en esta signal. -->
         <app-product-list [elements]="elementService.elements()"></app-product-list>
       </section>
     </div>
@@ -26,6 +29,8 @@ import { ElementService } from '../../services/element.service';
     .search-section { margin-bottom: 2rem; text-align: center; }
   `]
 })
+// Esta página ahora solo actúa como Coordinador ("Dumb Component / Smart Component pattern")
 export class CatalegComponent {
+  // Inyectamos nuestro servicio de datos y estado
   public elementService = inject(ElementService);
 }
