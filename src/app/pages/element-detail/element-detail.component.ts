@@ -40,20 +40,25 @@ import { ElementCataleg } from '../../models/element.model';
   `]
 })
 export class ElementDetailComponent implements OnInit {
+  // ActivatedRoute nos permite leer la URL actual y rescatar los variables (como :id)
   private route = inject(ActivatedRoute);
   private elementService = inject(ElementService);
   
   product: ElementCataleg | null = null;
 
   ngOnInit() {
+    // Rescatamos el ID de la URL
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       if (this.elementService.elements().length === 0) {
+        // Truco para este proyecto porque no cargamos por ID al json-server.
+        // Si entramos directo a la URL de un elemento, cargamos todos primero.
         this.elementService.cercar('');
       }
       setTimeout(() => {
         const elements = this.elementService.elements();
         if (elements) {
+          // Buscamos cuál es el producto que toca según nuestra URL
           this.product = elements.find((e: ElementCataleg) => e.id === id) || null;
         }
       }, 500);
