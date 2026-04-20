@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductSearchComponent } from '../../components/product-search/product-search.component';
 import { ProductListComponent } from '../../components/product-list/product-list.component';
@@ -30,7 +30,13 @@ import { ElementService } from '../../services/element.service';
   `]
 })
 // Esta página ahora solo actúa como Coordinador ("Dumb Component / Smart Component pattern")
-export class CatalegComponent {
+export class CatalegComponent implements OnInit {
   // Inyectamos nuestro servicio de datos y estado
   public elementService = inject(ElementService);
+
+  ngOnInit() {
+    // Al cargar la página por primera vez, pedimos todos los productos (o populares)
+    // Usamos cercar('') porque trae todos por defecto si json-server no filtra por_like nulo
+    this.elementService.cercar('');
+  }
 }
