@@ -1,0 +1,64 @@
+{
+  "elements": [
+    {
+      "id": "1",
+      "nom": "NVIDIA GeForce RTX 4090",
+      "descripcio": "La tarjeta gráfica definitiva para entusiastas con 24GB GDDR6X.",
+      "categoria": "Tarjetas Gráficas",
+      "preu": 1849,
+      "imatge": "https://placehold.co/400x300/222222/00ff00?text=RTX+4090",
+      "popular": true,
+      "stock": 5
+    },
+    {
+      "id": "2",
+      "nom": "AMD Ryzen 9 7950X3D",
+      "descripcio": "El mejor procesador para gaming con tecnología 3D V-Cache.",
+      "categoria": "Procesadores",
+      "preu": 699,
+      "imatge": "https://placehold.co/400x300/222222/ff0000?text=Ryzen+9+7950X3D",
+      "popular": true,
+      "stock": 12
+    },
+    {
+      "id": "3",
+      "nom": "Intel Core i9-14900K",
+      "descripcio": "Procesador de 24 núcleos y hasta 6.0 GHz para un rendimiento extremo.",
+      "categoria": "Procesadores",
+      "preu": 620,
+      "imatge": "https://placehold.co/400x300/222222/0000ff?text=i9-14900K",
+      "popular": false,
+      "stock": 8
+    },
+    {
+      "id": "4",
+      "nom": "ASUS ROG Maximus Z790 Hero",
+      "descripcio": "Placa base premium con conectividad WiFi 6E y soporte DDR5.",
+      "categoria": "Placas Base",
+      "preu": 650,
+      "imatge": "https://placehold.co/400x300/222222/ff00ff?text=ROG+Z790+Hero",
+      "popular": false,
+      "stock": 3
+    },
+    {
+      "id": "5",
+      "nom": "Corsair Dominator Platinum 64GB DDR5",
+      "descripcio": "Memoria RAM de alto rendimiento con RGB integrado.",
+      "categoria": "Memorias RAM",
+      "preu": 320,
+      "imatge": "https://placehold.co/400x300/222222/ffff00?text=Corsair+RAM+64GB",
+      "popular": true,
+      "stock": 15
+    },
+    {
+      "id": "6",
+      "nom": "Samsung 990 Pro 2TB NVMe",
+      "descripcio": "Unidad de estado sólido M.2 PCIe 4.0 líder en su clase.",
+      "categoria": "Almacenamiento",
+      "preu": 180,
+      "imatge": "https://placehold.co/400x300/222222/00ffff?text=990+PRO+2TB",
+      "popular": true,
+      "stock": 25
+    }
+  ]
+}
