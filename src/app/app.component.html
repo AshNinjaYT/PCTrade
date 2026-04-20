@@ -1,12 +1,18 @@
-<header class="header">
+<header class="header glass-panel">
   <div class="welcome-section">
-    <h1>PCTrade</h1>
-    <p>La mejor selección de hardware informático</p>
+    <div class="logo-wrapper">
+      <div class="glow-orb"></div>
+      <h1>PC<span class="highlight">Trade</span></h1>
+    </div>
+    <p>Hardware Premium</p>
   </div>
-  <nav class="main-nav" style="display:flex; gap:1rem; margin-top:1rem;">
-    <a routerLink="/cataleg" routerLinkActive="active" style="text-decoration:none; padding:0.5rem 1rem; background:#eee; border-radius:4px;">Catálogo</a>
-    <a routerLink="/preferits" routerLinkActive="active" style="text-decoration:none; padding:0.5rem 1rem; background:#eee; border-radius:4px;">
-      Mis Favoritos ({{ preferitsService.totalPreferits() }})
+  <nav class="main-nav">
+    <a routerLink="/cataleg" routerLinkActive="active-link" class="nav-item">
+      <span class="icon">💻</span> Catálogo
+    </a>
+    <a routerLink="/preferits" routerLinkActive="active-link" class="nav-item">
+      <span class="icon">❤️</span> Favoritos 
+      <span class="badge" *ngIf="preferitsService.totalPreferits() > 0">{{ preferitsService.totalPreferits() }}</span>
     </a>
   </nav>
 </header>
@@ -15,9 +21,9 @@
   <router-outlet></router-outlet>
 </main>
 
-<footer class="footer">
+<footer class="footer glass-panel">
   <div class="footer-content">
-    <p class="developer-info">Desarrollado por Achraf Ben Tamou</p>
-    <p class="copyright">© 2026 PCTrade - Todos los derechos reservados</p>
+    <p class="developer-info">Desarrollado con 🚀 por Achraf Ben Tamou</p>
+    <p class="copyright">© 2026 PCTrade - EAC3 Advanced Programming</p>
   </div>
 </footer>

@@ -53,8 +53,10 @@ export class ElementService {
     this._carregant.set(true);
     this._error.set(null);
 
-    // json-server utiliza el sufijo _like para hacer una búsqueda tipo "contiene"
-    this.http.get<ElementApiResponse[]>(`${this.apiUrl}?nom_like=${terme}`).subscribe({
+    // Si el término está vacío, traemos todo sin el query param _like
+    const url = terme.trim() === '' ? this.apiUrl : `${this.apiUrl}?nom_like=${terme}`;
+
+    this.http.get<ElementApiResponse[]>(url).subscribe({
       next: (data) => {
         const adaptats = adaptarElementsApi(data);
         this._elements.set(adaptats);

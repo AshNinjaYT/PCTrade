@@ -1,18 +1,18 @@
 <div class="product-card" role="article" [attr.aria-labelledby]="'title-' + element.id">
-  <a [routerLink]="['/element', element.id]" class="card-link" style="text-decoration:none; color:inherit;">
-    <div class="image-wrapper" style="text-align: center; margin-bottom: 1rem;">
-      <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image" style="max-width:100%; border-radius: 8px;">
+  <a [routerLink]="['/element', element.id]" class="card-link">
+    <div class="image-wrapper">
+      <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image">
     </div>
-    <h3 [id]="'title-' + element.id">{{ element.titol | uppercase }}</h3>
-    <p class="category" style="font-size:0.8rem; color:#888;">{{ element.categoria }}</p>
+    <h3 [id]="'title-' + element.id">{{ element.titol }}</h3>
+    <p class="category">{{ element.categoria }}</p>
     <p class="price" aria-label="Precio del producto">{{ element.preu | currency : "EUR" }}</p>
     <p class="description" *ngIf="element.descripcio" aria-label="Descripción del producto">{{ element.descripcio | slice:0:100 }}...</p>
   </a>
   <button class="fav-btn" 
           [class.active]="isPreferit()" 
           (click)="togglePreferit($event)"
-          aria-label="Añadir a favoritos"
-          style="margin-top:1rem; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; width:100%; border: 1px solid #ccc; background: white;">
-    {{ isPreferit() ? '❤️ Quitar Favorito' : '🤍 Añadir Favorito' }}
+          aria-label="Añadir a favoritos">
+    <span *ngIf="isPreferit()">❤️ Quitar Favorito</span>
+    <span *ngIf="!isPreferit()">🤍 Añadir Favorito</span>
   </button>
 </div>

@@ -1,25 +1,31 @@
-<form [formGroup]="cercaForm" (ngSubmit)="emitSearch()" class="search-form" role="search">
-  <div class="input-group">
-    <input type="text" formControlName="termeCerca"
-      placeholder="Cercar hardware (ex: rtx 4090)..." class="search-input"
-      aria-label="Camp de cerca de hardware informàtic">
-    <button type="submit" [disabled]="cercaForm.invalid" class="search-button"
-      aria-label="Executar cerca filtrada">Cercar</button>
+<form [formGroup]="cercaForm" (ngSubmit)="emitSearch()" class="search-container">
+  
+  <div class="search-input-group">
+    <input 
+      type="text" 
+      formControlName="termeCerca"
+      placeholder="Buscar hardware (ej: rtx 4090)"
+      [class.is-invalid]="cercaForm.get('termeCerca')?.invalid && cercaForm.get('termeCerca')?.touched"
+    >
+    <button type="submit" [disabled]="cercaForm.get('termeCerca')?.invalid">
+      Buscar
+    </button>
+  </div>
+  
+  <div *ngIf="cercaForm.get('termeCerca')?.invalid && cercaForm.get('termeCerca')?.touched" class="error-msg">
+    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['required']">Palabra clave requerida.</span>
+    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['minlength']">Gasta unas teclas más, mínimo 3 carácteres.</span>
+    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['prohibit']">Esa palabra clave está totalmente prohibida (simulado desde servidor).</span>
   </div>
 
-  <div *ngIf="cercaForm.get('termeCerca')?.invalid && (cercaForm.get('termeCerca')?.dirty || cercaForm.get('termeCerca')?.touched)" class="error-message">
-    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['minlength']">Mínim 3 caràcters per cercar.</span>
-    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['required']">El camp és obligatori.</span>
-    <span *ngIf="cercaForm.get('termeCerca')?.errors?.['prohibit']">No es permet l'ús d'aquesta paraula.</span>
-  </div>
-
-  <div class="filters-group" formArrayName="categoriesArray">
-    <span class="filters-title">Filtres de categories:</span>
-    <div class="checkboxes">
-      <label *ngFor="let obj of categoriesControls; let i = index" class="checkbox-label">
-        <input type="checkbox" [formControlName]="i" />
+  <div class="filters-group">
+    <p>Filtros Rápidos</p>
+    <div class="checkboxes" formArrayName="categoriesArray">
+      <label *ngFor="let control of categoriesControls; let i = index">
+        <input type="checkbox" [formControlName]="i">
         {{ categories[i] }}
       </label>
     </div>
   </div>
+
 </form>

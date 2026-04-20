@@ -30,13 +30,25 @@ import { ElementCataleg } from '../../models/element.model';
     <div *ngIf="!product" class="loading">Cargando producto...</div>
   `,
   styles: [`
-    .detail-container { padding: 2rem; max-width: 900px; margin: auto; }
-    .breadcrumb a { text-decoration: none; color: var(--hot-red, #ff4081); font-weight: bold; }
-    .detail-content { display: flex; gap: 2rem; margin-top: 1.5rem; }
-    .image-box img { max-width: 400px; border-radius: 12px; }
-    .info-box h2 { font-size: 2rem; margin-bottom: 0.5rem; }
-    .category { background: #eee; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.9rem;}
-    .price { font-size: 1.8rem; font-weight: bold; color: #2ecc71; display: block; margin-top: 1rem; }
+    .detail-container { padding: 2rem; max-width: 1000px; margin: 2rem auto; }
+    .breadcrumb a { 
+      text-decoration: none; color: var(--accent-color); font-weight: 600; 
+      display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; background: rgba(99,102,241,0.1); transition: all 0.3s;
+    }
+    .breadcrumb a:hover { background: rgba(99,102,241,0.2); transform: translateX(-5px); }
+    .detail-content { 
+      display: flex; gap: 3rem; margin-top: 2rem; align-items: center;
+      background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); padding: 3rem; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+    .image-box { flex: 1; text-align: center; }
+    .image-box img { max-width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+    .info-box { flex: 1.5; display: flex; flex-direction: column; gap: 1rem; }
+    .info-box h2 { font-size: 2.5rem; color: white; line-height: 1.2; margin: 0; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+    .category { background: rgba(99,102,241,0.2); color: #a5b4fc; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.9rem; align-self: flex-start; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+    .description { font-size: 1.1rem; line-height: 1.7; color: var(--text-secondary); }
+    .price-section { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border); }
+    .price { font-size: 2.5rem; font-weight: 800; color: var(--success); }
+    .loading { text-align: center; padding: 10rem; color: var(--text-secondary); font-size: 1.2rem; }
   `]
 })
 export class ElementDetailComponent implements OnInit {
