@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, inject, DestroyRef } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, inject, DestroyRef, effect } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
@@ -17,26 +17,30 @@ export class ProductSearchComponent implements OnInit {
   @Output() onSearch = new EventEmitter<string>();
 
   cercaForm!: FormGroup;
-  categories = [
-    'Procesadores', 'Tarjetas Gráficas', 'Memorias RAM', 'Placas Base',
-    'Almacenamiento SSD', 'Almacenamiento HDD', 'Fuentes de Alimentación',
-    'Cajas', 'Refrigeración', 'Monitores', 'Periféricos',
-    'Accesorios', 'Conectividad'
-  ];
+  // Ya no usamos categorías hardcodeadas, las traeremos del servicio
+  // Ya no usamos categorías hardcodeadas, las traeremos del servicio
+  public categories = inject(ElementService).categories;
+
 
   showFilters = false; // Control del menú desplegable
 
   private fb = inject(FormBuilder);
-  private elementService = inject(ElementService);
+  public elementService = inject(ElementService);
   private destroyRef = inject(DestroyRef);
+
+
+  constructor() {
+    // Escuchamos cuando cambian las categorías en el servicio para reconstruir el formulario
+    // Importamos effect de @angular/core al principio del archivo (mejor práctica)
+  }
 
   ngOnInit() {
     this.cercaForm = this.fb.group({
       termeCerca: ['', 
-        [], // Eliminamos Validators.required y minLength para permitir buscar todo
+        [], 
         [this.validadorAssincron.bind(this)]
       ],
-      categoriesArray: this.fb.array(this.categories.map(() => this.fb.control(false)))
+      categoriesArray: this.fb.array(this.categories().map(() => this.fb.control(false)))
     });
 
     // Suscripción al cambio de texto (con debounce para no saturar)
@@ -48,12 +52,20 @@ export class ProductSearchComponent implements OnInit {
       )
       .subscribe(() => this.aplicarCerca());
 
-    // Suscripción al cambio de categorías (instantáneo)
-    this.cercaForm.get('categoriesArray')?.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(() => this.aplicarCerca());
+    // Escuchamos cuando cambian las categorías en el servicio para reconstruir el formulario
+    effect(() => {
+      const cats = this.categories();
+      if (this.cercaForm && cats.length > 0) {
+        this.reconstruirCategories(cats);
+        
+        // Nos volvemos a suscribir a los cambios del nuevo array
+        this.cercaForm.get('categoriesArray')?.valueChanges
+          .pipe(
+            takeUntilDestroyed(this.destroyRef)
+          )
+          .subscribe(() => this.aplicarCerca());
+      }
+    });
   }
 
   // Función unificada para aplicar el estado actual de los filtros
@@ -62,13 +74,21 @@ export class ProductSearchComponent implements OnInit {
 
     const terme = this.cercaForm.value.termeCerca || '';
     
-    // Mapeamos los booleanos del FormArray a los nombres de las categorías
+    // Mapeamos los booleanos del FormArray a los nombres de las categorías usando la lista dinámica
     const categoriesSeleccionades = (this.cercaForm.value.categoriesArray as boolean[])
-      .map((seleccionat, i) => seleccionat ? this.categories[i] : null)
+      .map((seleccionat, i) => seleccionat ? this.categories()[i] : null)
       .filter((cat): cat is string => cat !== null);
 
     this.elementService.cercar(terme, categoriesSeleccionades);
     this.onSearch.emit(terme);
+  }
+
+  private reconstruirCategories(cats: string[]) {
+    const arr = this.cercaForm.get('categoriesArray') as FormArray;
+    // Guardamos las selecciones actuales si quisiéramos mantenerlas, 
+    // pero por simplicidad para arreglar el bug, las reseteamos.
+    arr.clear();
+    cats.forEach(() => arr.push(this.fb.control(false)));
   }
 
   get categoriesControls() {

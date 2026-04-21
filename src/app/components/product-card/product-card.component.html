@@ -3,7 +3,7 @@
 
   <a class="card-link" [routerLink]="['/element', element.id]">
     <div class="image-wrapper">
-      <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image" loading="lazy">
+      <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image" loading="lazy" (error)="onImageError($event)">
     </div>
 
     <span class="category">{{ element.categoria }}</span>

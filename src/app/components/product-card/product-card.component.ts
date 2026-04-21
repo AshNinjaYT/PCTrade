@@ -15,6 +15,14 @@ export class ProductCardComponent {
   @Input() element!: ElementCataleg;
   preferitsService = inject(PreferitsService);
 
+  // URL de imagen por defecto si la original falla
+  public defaultImage = 'https://images.unsplash.com/photo-1588505231449-5638704237cc?q=80&w=500&auto=format&fit=crop';
+  
+  onImageError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    img.src = this.defaultImage;
+  }
+
   togglePreferit(event: Event) {
     event.stopPropagation();
     event.preventDefault(); 
