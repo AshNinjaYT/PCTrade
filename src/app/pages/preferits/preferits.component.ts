@@ -34,25 +34,26 @@ import { ProductCardComponent } from '../../components/product-card/product-card
   `,
   styles: [`
     .preferits-container { padding: 2rem; max-width: 1400px; margin: 0 auto; }
-    h2 { font-size: 2.5rem; margin-bottom: 2rem; color: var(--text-primary); text-align: center; }
+    h2 { font-size: 2.2rem; margin-bottom: 2rem; color: var(--text-primary); text-align: center; }
     .empty-state {
-      text-align: center; padding: 6rem; background: var(--glass-bg); 
-      border: 1px dashed var(--glass-border); border-radius: 16px; color: var(--text-secondary);
+      text-align: center; padding: 6rem; background: white; 
+      border: 2px dashed #d1d5db; border-radius: 8px; color: var(--text-secondary);
     }
-    .preferits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; }
+    .preferits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
     .preferit-item { 
       display: flex; flex-direction: column; gap: 1rem; 
-      background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); 
-      padding: 1.5rem; border-radius: 16px; transition: transform 0.3s;
+      background: white; border: 1px solid var(--glass-border); 
+      padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.2s;
     }
-    .preferit-item:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+    .preferit-item:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
     .note-section { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem; border-top: 1px solid var(--glass-border); padding-top: 1rem; }
-    .note-section label { color: var(--text-secondary); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .note-section label { color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
     textarea { 
-      width: 100%; border: 1px solid var(--glass-border); border-radius: 8px; padding: 1rem; 
-      min-height: 100px; resize: vertical; background: rgba(0,0,0,0.2); color: white; outline: none; transition: all 0.3s;
+      width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 1rem; 
+      min-height: 100px; resize: vertical; background: #f9f9f9; color: var(--text-primary); outline: none; transition: all 0.2s; font-family: 'Inter', sans-serif;
     }
-    textarea:focus { border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(99,102,241,0.2); background: rgba(0,0,0,0.4); }
+    textarea:focus { border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(255,96,0,0.1); background: white; }
   `]
 })
 export class PreferitsComponent {

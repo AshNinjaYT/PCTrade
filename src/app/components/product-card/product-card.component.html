@@ -1,18 +1,26 @@
-<div class="product-card" role="article" [attr.aria-labelledby]="'title-' + element.id">
-  <a [routerLink]="['/element', element.id]" class="card-link">
+<div class="product-card">
+  <div class="badge-top" *ngIf="element.esPopular">TOP</div>
+
+  <a class="card-link" [routerLink]="['/element', element.id]">
     <div class="image-wrapper">
-      <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image">
+      <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image" loading="lazy">
     </div>
-    <h3 [id]="'title-' + element.id">{{ element.titol }}</h3>
-    <p class="category">{{ element.categoria }}</p>
-    <p class="price" aria-label="Precio del producto">{{ element.preu | currency : "EUR" }}</p>
-    <p class="description" *ngIf="element.descripcio" aria-label="Descripción del producto">{{ element.descripcio | slice:0:100 }}...</p>
+
+    <span class="category">{{ element.categoria }}</span>
+    <h3>{{ element.titol }}</h3>
+    <p class="description">{{ element.descripcio | slice:0:70 }}{{ element.descripcio.length > 70 ? '...' : '' }}</p>
+
+    <div class="stats-row">
+      <div class="price">{{ element.preu | currency:'EUR' }}</div>
+      <div class="stock-badge" [class.low]="element.unitats < 5">
+        <span class="dot"></span> {{ element.unitats }} uds
+      </div>
+    </div>
   </a>
-  <button class="fav-btn" 
-          [class.active]="isPreferit()" 
-          (click)="togglePreferit($event)"
-          aria-label="Añadir a favoritos">
-    <span *ngIf="isPreferit()">❤️ Quitar Favorito</span>
-    <span *ngIf="!isPreferit()">🤍 Añadir Favorito</span>
-  </button>
+
+  <div class="actions">
+    <button class="fav-btn" [class.active]="isPreferit()" (click)="togglePreferit($event)">
+      {{ isPreferit() ? '❤️ Quitar favoritos' : '🤍 Añadir favoritos' }}
+    </button>
+  </div>
 </div>

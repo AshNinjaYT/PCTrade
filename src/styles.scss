@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
 :root {
-  --bg-dark: #0f172a;
-  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --accent-color: #6366f1;
-  --accent-glow: rgba(99, 102, 241, 0.5);
-  --success: #10b981;
+  --bg-dark: #f5f6f8; /* Ahora es un gris clarito de tienda */
+  --bg-gradient: #f5f6f8; /* Sin degradados oscuros */
+  --glass-bg: #ffffff; /* Las tarjetas ahora son blancas puras */
+  --glass-border: #e0e4e8; /* Borde sutil gris */
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --accent-color: #ff6000; /* Naranja PcComponentes */
+  --accent-glow: rgba(255, 96, 0, 0.3);
+  --success: #0b9e67;
   --danger: #ef4444;
 }
 
@@ -32,13 +32,12 @@ h1, h2, h3, h4 {
   letter-spacing: -0.02em;
 }
 
-/* Glassmorphism utils */
+/* Glassmorphism utils (Reutilizadas como paneles planos comerciales) */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 /* Standard Buttons */
@@ -47,16 +46,16 @@ h1, h2, h3, h4 {
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px var(--accent-glow);
+  transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.7);
+  background: #e55600;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--accent-glow);
 }
 
 /* Scrollbar */
@@ -64,10 +63,10 @@ h1, h2, h3, h4 {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--glass-border);
+  background: #c1c1c1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -76,16 +75,16 @@ h1, h2, h3, h4 {
 
 /* Animations */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
 

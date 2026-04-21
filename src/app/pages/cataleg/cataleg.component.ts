@@ -10,19 +10,18 @@ import { ElementService } from '../../services/element.service';
   imports: [CommonModule, ProductSearchComponent, ProductListComponent],
   template: `
     <div class="cataleg-container">
-      <div class="hero-section text-center">
-        <div class="glow-bg"></div>
-        <h2 class="title">Descubre el Poder Absoluto</h2>
+      <div class="header-section text-center">
+        <h2 class="title">Hardware y Componentes</h2>
         <p class="subtitle">Componentes de última generación para construir la máquina de tus sueños.</p>
         
-        <div class="search-wrapper glass-panel">
+        <div class="search-wrapper">
           <app-product-search></app-product-search>
         </div>
       </div>
 
       <section class="results-section">
         <div class="section-header">
-          <h3>Resultados de la Búsqueda</h3>
+          <h3>Nuestros Productos</h3>
           <div class="linea"></div>
         </div>
         <app-product-list [elements]="elementService.elements()"></app-product-list>
@@ -35,49 +34,32 @@ import { ElementService } from '../../services/element.service';
       margin: 0 auto; 
     }
     
-    .hero-section {
+    .header-section {
       text-align: center;
-      padding: 4rem 2rem;
-      position: relative;
-      margin-bottom: 3rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
     }
     
-    .glow-bg {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, rgba(0,0,0,0) 70%);
-      z-index: 0;
-      pointer-events: none;
-    }
-
     .title {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      position: relative;
-      z-index: 1;
-      background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
     }
 
     .subtitle {
       color: var(--text-secondary);
-      font-size: 1.2rem;
-      margin-bottom: 3rem;
-      position: relative;
-      z-index: 1;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
     }
 
     .search-wrapper {
       max-width: 800px;
       margin: 0 auto;
-      padding: 2rem;
-      position: relative;
-      z-index: 1;
+      padding: 1.5rem;
+      background: white;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
     .section-header {
@@ -95,7 +77,7 @@ import { ElementService } from '../../services/element.service';
       .linea {
         height: 1px;
         width: 100%;
-        background: linear-gradient(to right, var(--glass-border), transparent);
+        background: var(--glass-border);
       }
     }
   `]

@@ -48,17 +48,32 @@ export class ElementService {
     });
   }
 
-  // Método para buscar por texto (usado en la barra de búsqueda superior)
-  cercar(terme: string): void {
+  // Método para buscar por texto y categorías (filtrado local)
+  cercar(terme: string, categoriesSeleccionades: string[] = []): void {
     this._carregant.set(true);
     this._error.set(null);
 
-    // Si el término está vacío, traemos todo sin el query param _like
-    const url = terme.trim() === '' ? this.apiUrl : `${this.apiUrl}?nom_like=${terme}`;
-
-    this.http.get<ElementApiResponse[]>(url).subscribe({
+    // Siempre traemos todos los elementos y aplicamos el filtrado en local.
+    this.http.get<ElementApiResponse[]>(this.apiUrl).subscribe({
       next: (data) => {
-        const adaptats = adaptarElementsApi(data);
+        let adaptats = adaptarElementsApi(data);
+        
+        // 1. Filtrar por categorías seleccionadas si el array no está vacío
+        if (categoriesSeleccionades.length > 0) {
+          adaptats = adaptats.filter(item => 
+            categoriesSeleccionades.includes(item.categoria)
+          );
+        }
+
+        // 2. Filtrar por el término de búsqueda (case-insensitive)
+        const cleanTerm = terme.trim().toLowerCase();
+        if (cleanTerm !== '') {
+          adaptats = adaptats.filter(item => 
+            item.titol.toLowerCase().includes(cleanTerm) || 
+            item.categoria.toLowerCase().includes(cleanTerm)
+          );
+        }
+        
         this._elements.set(adaptats);
         this._carregant.set(false);
       },

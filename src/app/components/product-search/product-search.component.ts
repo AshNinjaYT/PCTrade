@@ -16,9 +16,7 @@ import { ElementService } from '../../services/element.service';
 export class ProductSearchComponent implements OnInit {
   @Output() onSearch = new EventEmitter<string>();
 
-  // Definimos nuestro FormGroup que contendrá todo el estado del formulario reactivo
   cercaForm!: FormGroup;
-  // Categorías basadas en la DB completa (100 elementos)
   categories = [
     'Procesadores', 'Tarjetas Gráficas', 'Memorias RAM', 'Placas Base',
     'Almacenamiento SSD', 'Almacenamiento HDD', 'Fuentes de Alimentación',
@@ -26,60 +24,72 @@ export class ProductSearchComponent implements OnInit {
     'Accesorios', 'Conectividad'
   ];
 
-  private fb = inject(FormBuilder); // Forma moderna Angular 16+ de inyectar dependencias
+  showFilters = false; // Control del menú desplegable
+
+  private fb = inject(FormBuilder);
   private elementService = inject(ElementService);
-  private destroyRef = inject(DestroyRef); // Sirve para limpiar subscripciones cuando el componente muere
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit() {
-    // Inicializamos el formulario con sus controles y validadores
     this.cercaForm = this.fb.group({
       termeCerca: ['', 
-        // Array 1: Validaciones síncronas (se ejecutan instantáneamente)
-        [Validators.required, Validators.minLength(3)],
-        // Array 2: Validaciones asíncronas (se ejecutan tras las síncronas, normalmente llaman al servidor)
+        [], // Eliminamos Validators.required y minLength para permitir buscar todo
         [this.validadorAssincron.bind(this)]
       ],
-      // Un FormArray es ideal para listas dinámicas de checkboxes o inputs
       categoriesArray: this.fb.array(this.categories.map(() => this.fb.control(false)))
     });
 
-    // Nos suscribimos a los cambios del input usando la potencia de RxJS
+    // Suscripción al cambio de texto (con debounce para no saturar)
     this.cercaForm.get('termeCerca')?.valueChanges
       .pipe(
-        debounceTime(800), // Esperamos 800ms antes de emitir para no saturar al servidor
-        distinctUntilChanged(), // Solo emitimos si el valor realmente ha cambiado
-        takeUntilDestroyed(this.destroyRef) // Protegemos contra Fugas de Memoria (Memory Leaks)
+        debounceTime(800),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(valor => {
-        // Solo llamamos a la API si el formulario actual es válido según todas nuestras reglas
-        if (this.cercaForm.get('termeCerca')?.valid && typeof valor === 'string') {
-          this.elementService.cercar(valor);
-          this.onSearch.emit(valor);
-        }
-      });
+      .subscribe(() => this.aplicarCerca());
+
+    // Suscripción al cambio de categorías (instantáneo)
+    this.cercaForm.get('categoriesArray')?.valueChanges
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => this.aplicarCerca());
   }
 
-  // Getter útil para la vista HTML (iterar el FormArray)
+  // Función unificada para aplicar el estado actual de los filtros
+  private aplicarCerca() {
+    if (this.cercaForm.get('termeCerca')?.invalid) return;
+
+    const terme = this.cercaForm.value.termeCerca || '';
+    
+    // Mapeamos los booleanos del FormArray a los nombres de las categorías
+    const categoriesSeleccionades = (this.cercaForm.value.categoriesArray as boolean[])
+      .map((seleccionat, i) => seleccionat ? this.categories[i] : null)
+      .filter((cat): cat is string => cat !== null);
+
+    this.elementService.cercar(terme, categoriesSeleccionades);
+    this.onSearch.emit(terme);
+  }
+
   get categoriesControls() {
     return (this.cercaForm.get('categoriesArray') as FormArray).controls;
   }
 
-  // Validador asíncrono custom: Simula una petición que prohíbe la palabra 'virus'
+  toggleFilters() {
+    this.showFilters = !this.showFilters;
+  }
+
   validadorAssincron(control: AbstractControl): Observable<ValidationErrors | null> {
     return of(control.value).pipe(
-      delay(1000), // Simulamos el retraso de internet
+      delay(1000),
       map(val => typeof val === 'string' && val.toLowerCase() === 'virus' ? { prohibit: true } : null)
     );
   }
 
-  // Se ejecuta al hacer enter o click en el botón de "Cercar" manualmente
   emitSearch() {
     if (this.cercaForm.valid) {
-      const valorCerca = this.cercaForm.value.termeCerca;
-      this.elementService.cercar(valorCerca);
-      this.onSearch.emit(valorCerca);
+      this.aplicarCerca();
     } else {
-      // Si el usuario intentó forzar el clic, marcamos como "tocado" para que salgan letras rojas (errores)
       this.cercaForm.markAllAsTouched();
     }
   }
