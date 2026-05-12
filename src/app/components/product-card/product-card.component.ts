@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ElementCataleg } from '../../models/element.model';
@@ -9,13 +9,13 @@ import { PreferitsService } from '../../services/preferits.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './product-card.component.html',
-  styleUrl: './product-card.component.scss'
+  styleUrl: './product-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCardComponent {
   @Input() element!: ElementCataleg;
   preferitsService = inject(PreferitsService);
 
-  // URL de imagen por defecto si la original falla
   public defaultImage = 'https://images.unsplash.com/photo-1588505231449-5638704237cc?q=80&w=500&auto=format&fit=crop';
   
   onImageError(event: Event) {
@@ -34,7 +34,6 @@ export class ProductCardComponent {
   }
 
   isPreferit(): boolean {
-    const list = this.preferitsService.preferits() || [];
-    return list.some(p => p.id === this.element.id);
+    return this.preferitsService.esPreferit(this.element.id);
   }
 }

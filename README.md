@@ -1,13 +1,25 @@
-# PCTrade - Achraf
+# PCTrade - Programación Avanzada (EAC4)
 
-## Descripción
-PCTrade es una plataforma orientada a la economía circular que permite a los usuarios intercambiar/vender y dar una segunda vida a componentes de PC (tarjetas gráficas, procesadores, memoria RAM, etc.). El objetivo es reducir la basura electrónica facilitando el intercambio/venta de hardware de segunda mano.
+Aplicación de gestión de componentes de hardware desarrollada con Angular 18.
 
-## Stack Tècnic
-- Angular 18 (Arquitectura Standalone)
-- SCSS (Sass) per als estils
-- Enrutament (Routing) activat
-- Server-Side Rendering (SSR) desactivat
+## Mapa de Rutas
+| Ruta | Componente | Acceso |
+|------|------------|--------|
+| `/cataleg` | CatalegComponent | Público |
+| `/cerca` | CercaComponent | Público |
+| `/element/:id` | ElementDetailComponent | Público |
+| `/favoritos` | PreferitsComponent | Privado (AuthGuard) |
+| `/login` | LoginComponent | Público |
 
-## Estado
-Configuración inicial completada y verificada para el EAC1.
+## Credenciales de prueba
+- **Usuario**: `admin@test.com`
+- **Contraseña**: `1234`
+
+## Ejecución
+1. `npm install`
+2. `npm start`
+3. Abrir `http://localhost:4200`
+
+## Build
+Generar el build de producción con:
+`ng build --configuration production`

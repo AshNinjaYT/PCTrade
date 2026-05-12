@@ -1,18 +1,28 @@
 import { Routes } from '@angular/router';
-import { CatalegComponent } from './pages/cataleg/cataleg.component';
-import { ElementDetailComponent } from './pages/element-detail/element-detail.component';
-import { PreferitsComponent } from './pages/preferits/preferits.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // Redirección por defecto: Si el usuario entra a la raíz '/', lo mandamos a '/cataleg'
-  { path: '', redirectTo: 'cataleg', pathMatch: 'full' },
-  // Componente Catálogo: La vista principal
-  { path: 'cataleg', component: CatalegComponent },
-  // Paso de Parámetros: Usamos ':id' para poder saber qué producto quiere ver el usuario (Ej: /element/1)
-  { path: 'element/:id', component: ElementDetailComponent },
-  // Componente Favoritos: La lista de piezas seleccionadas
-  { path: 'preferits', component: PreferitsComponent },
-  // Ruta Comodín (Wildcard): Atrapa cualquier URL que no exista y muestra la página 404
-  { path: '**', component: NotFoundComponent }
+  { 
+    path: 'catalogo', 
+    loadComponent: () => import('./pages/cataleg/cataleg.component').then(m => m.CatalegComponent) 
+  },
+  { 
+    path: 'busqueda', 
+    loadComponent: () => import('./pages/cerca/cerca.component').then(m => m.CercaComponent) 
+  },
+  { 
+    path: 'elemento/:id', 
+    loadComponent: () => import('./pages/element-detail/element-detail.component').then(m => m.ElementDetailComponent) 
+  },
+  { 
+    path: 'login', 
+    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) 
+  },
+  { 
+    path: 'favoritos', 
+    loadComponent: () => import('./pages/preferits/preferits.component').then(m => m.PreferitsComponent),
+    canActivate: [authGuard]
+  },
+  { path: '', redirectTo: 'catalogo', pathMatch: 'full' },
+  { path: '**', redirectTo: 'catalogo' }
 ];

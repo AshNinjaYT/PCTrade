@@ -1,6 +1,8 @@
-<div class="product-grid">
-  <app-product-card *ngFor="let el of elements; trackBy: trackById" [element]="el"></app-product-card>
-</div>
+<cdk-virtual-scroll-viewport itemSize="450" style="height: 700px; overflow-y: auto; overflow-x: hidden; padding-bottom: 2rem;">
+  <div *cdkVirtualFor="let row of rowElements" class="product-row-virtual">
+    <app-product-card *ngFor="let el of row; trackBy: trackById" [element]="el"></app-product-card>
+  </div>
+</cdk-virtual-scroll-viewport>
 
 <div *ngIf="elements.length === 0" class="no-results">
   <p>No se han encontrado componentes que coincidan con la búsqueda.</p>

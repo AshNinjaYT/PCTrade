@@ -1,20 +1,26 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 import { PreferitsService } from './services/preferits.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'PCTrade - Advanced Hardware';
+  public authService = inject(AuthService);
   public preferitsService = inject(PreferitsService);
+  private router = inject(Router);
 
-  constructor() {
-    console.log('App en modo SPA con Routing activado.');
+  // Observable para reaccionar a cambios en el usuario
+  usuario$ = this.authService.obtenerUsuario();
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/catalogo']);
   }
 }

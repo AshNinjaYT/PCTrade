@@ -1,9 +1,9 @@
 <div class="product-card">
   <div class="badge-top" *ngIf="element.esPopular">TOP</div>
 
-  <a class="card-link" [routerLink]="['/element', element.id]">
+  <a class="card-link" [routerLink]="['/elemento', element.id]">
     <div class="image-wrapper">
-      <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image" loading="lazy" (error)="onImageError($event)">
+      <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image" loading="lazy">
     </div>
 
     <span class="category">{{ element.categoria }}</span>
@@ -20,7 +20,7 @@
 
   <div class="actions">
     <button class="fav-btn" [class.active]="isPreferit()" (click)="togglePreferit($event)">
-      {{ isPreferit() ? '❤️ Quitar favoritos' : '🤍 Añadir favoritos' }}
+      {{ isPreferit() ? '❤️ Quitar de favoritos' : '🤍 Añadir a favoritos' }}
     </button>
   </div>
 </div>

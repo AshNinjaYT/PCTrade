@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ElementService } from '../../services/element.service';
@@ -7,11 +7,12 @@ import { ElementCataleg } from '../../models/element.model';
 @Component({
   selector: 'app-element-detail',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterLink],
   template: `
     <div class="detail-container" *ngIf="product">
       <div class="breadcrumb">
-        <a routerLink="/cataleg">&larr; Volver al Catálogo</a>
+        <a routerLink="/catalogo">&larr; Volver al Catálogo</a>
       </div>
       <div class="detail-content">
         <div class="image-box">
@@ -31,15 +32,9 @@ import { ElementCataleg } from '../../models/element.model';
   `,
   styles: [`
     .detail-container { padding: 2rem; max-width: 1000px; margin: 2rem auto; }
-    .breadcrumb a { 
-      text-decoration: none; color: var(--accent-color); font-weight: 600; 
-      display: inline-block; padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--accent-color); background: white; transition: all 0.2s;
-    }
+    .breadcrumb a { text-decoration: none; color: var(--accent-color); font-weight: 600; display: inline-block; padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--accent-color); background: white; transition: all 0.2s; }
     .breadcrumb a:hover { background: #fdf5e6; transform: translateX(-2px); }
-    .detail-content { 
-      display: flex; gap: 3rem; margin-top: 2rem; align-items: flex-start;
-      background: white; border: 1px solid var(--glass-border); padding: 3rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
+    .detail-content { display: flex; gap: 3rem; margin-top: 2rem; align-items: flex-start; background: white; border: 1px solid var(--glass-border); padding: 3rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     .image-box { flex: 1; text-align: center; }
     .image-box img { max-width: 100%; object-fit: contain; }
     .info-box { flex: 1.5; display: flex; flex-direction: column; gap: 1rem; }
@@ -52,26 +47,23 @@ import { ElementCataleg } from '../../models/element.model';
   `]
 })
 export class ElementDetailComponent implements OnInit {
-  // ActivatedRoute nos permite leer la URL actual y rescatar los variables (como :id)
   private route = inject(ActivatedRoute);
   private elementService = inject(ElementService);
+  private cdr = inject(ChangeDetectorRef);
   
   product: ElementCataleg | null = null;
 
   ngOnInit() {
-    // Rescatamos el ID de la URL
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       if (this.elementService.elements().length === 0) {
-        // Truco para este proyecto porque no cargamos por ID al json-server.
-        // Si entramos directo a la URL de un elemento, cargamos todos primero.
         this.elementService.cercar('');
       }
       setTimeout(() => {
         const elements = this.elementService.elements();
         if (elements) {
-          // Buscamos cuál es el producto que toca según nuestra URL
           this.product = elements.find((e: ElementCataleg) => e.id === id) || null;
+          this.cdr.markForCheck();
         }
       }, 500);
     }

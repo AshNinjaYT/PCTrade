@@ -1,19 +1,37 @@
 <header class="header">
   <div class="welcome-section">
     <div class="logo-wrapper">
-      <h1 class="logo-text">PC<span class="highlight">Trade</span></h1>
+      <a routerLink="/catalogo" class="logo-link">
+        <h1 class="logo-text">PC<span class="highlight">Trade</span></h1>
+      </a>
     </div>
     <p>Hardware y Componentes</p>
   </div>
+
   <nav class="main-nav">
-    <a routerLink="/cataleg" routerLinkActive="active-link" class="nav-item">
+    <a routerLink="/catalogo" routerLinkActive="active-link" class="nav-item">
       <span class="icon">💻</span> Catálogo
     </a>
-    <a routerLink="/preferits" routerLinkActive="active-link" class="nav-item">
-      <span class="icon">❤️</span> Favoritos 
+    <a routerLink="/busqueda" routerLinkActive="active-link" class="nav-item">
+      <span class="icon">🔍</span> Búsqueda
+    </a>
+    <a routerLink="/favoritos" routerLinkActive="active-link" class="nav-item">
+      <span class="icon">❤️</span> Favoritos
       <span class="badge" *ngIf="preferitsService.totalPreferits() > 0">{{ preferitsService.totalPreferits() }}</span>
     </a>
   </nav>
+
+  <div class="auth-section">
+    <ng-container *ngIf="usuario$ | async as usuario; else noAutenticado">
+      <span class="user-info">👤 {{ usuario.nombre }}</span>
+      <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+    </ng-container>
+    <ng-template #noAutenticado>
+      <a routerLink="/login" routerLinkActive="active-link" class="nav-item login-link">
+        <span class="icon">🔐</span> Iniciar sesión
+      </a>
+    </ng-template>
+  </div>
 </header>
 
 <main class="main-content">
@@ -23,7 +41,6 @@
 <footer class="footer">
   <div class="footer-content">
     <p class="developer-info">Desarrollado con 🚀 por Achraf Ben Tamou</p>
-    <p class="copyright">© 2026 PCTrade - EAC3 Advanced Programming</p>
+    <p class="copyright">© 2026 PCTrade - EAC4 Programación Avanzada</p>
   </div>
 </footer>
-
