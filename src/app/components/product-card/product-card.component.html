@@ -1,7 +1,7 @@
 <div class="product-card">
   <div class="badge-top" *ngIf="element.esPopular">TOP</div>
 
-  <a class="card-link" [routerLink]="['/elemento', element.id]">
+  <a class="card-link" [routerLink]="['/element', element.id]">
     <div class="image-wrapper">
       <img [src]="element.imatgeUrl" [alt]="element.titol" class="product-image" loading="lazy">
     </div>

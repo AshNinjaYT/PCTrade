@@ -1,7 +1,7 @@
 <header class="header">
   <div class="welcome-section">
     <div class="logo-wrapper">
-      <a routerLink="/catalogo" class="logo-link">
+      <a routerLink="/cataleg" class="logo-link">
         <h1 class="logo-text">PC<span class="highlight">Trade</span></h1>
       </a>
     </div>
@@ -9,13 +9,13 @@
   </div>
 
   <nav class="main-nav">
-    <a routerLink="/catalogo" routerLinkActive="active-link" class="nav-item">
+    <a routerLink="/cataleg" routerLinkActive="active-link" class="nav-item">
       <span class="icon">💻</span> Catálogo
     </a>
-    <a routerLink="/busqueda" routerLinkActive="active-link" class="nav-item">
+    <a routerLink="/cerca" routerLinkActive="active-link" class="nav-item">
       <span class="icon">🔍</span> Búsqueda
     </a>
-    <a routerLink="/favoritos" routerLinkActive="active-link" class="nav-item">
+    <a routerLink="/preferits" routerLinkActive="active-link" class="nav-item">
       <span class="icon">❤️</span> Favoritos
       <span class="badge" *ngIf="preferitsService.totalPreferits() > 0">{{ preferitsService.totalPreferits() }}</span>
     </a>

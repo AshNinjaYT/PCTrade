@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { PreferitsService } from './services/preferits.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +17,20 @@ export class AppComponent {
   public preferitsService = inject(PreferitsService);
   private router = inject(Router);
 
+  constructor() {
+    // Scroll al principio al navegar entre rutas
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      window.scrollTo(0, 0);
+    });
+  }
+
   // Observable para reaccionar a cambios en el usuario
   usuario$ = this.authService.obtenerUsuario();
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/catalogo']);
+    this.router.navigate(['/cataleg']);
   }
 }

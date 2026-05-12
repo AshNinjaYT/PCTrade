@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ProductCardComponent } from '../product-card/product-card.component';
@@ -12,11 +12,16 @@ import { ElementCataleg } from '../../models/element.model';
   styleUrl: './product-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductListComponent implements OnChanges {
+export class ProductListComponent implements OnChanges, OnInit {
   @Input() elements: ElementCataleg[] = [];
 
-  // Agrupamos los elementos en filas de 3 para el grid virtual
+  // Agrupamos los elementos en filas dinámicas para el grid virtual
   rowElements: ElementCataleg[][] = [];
+  private chunkSize = 3;
+
+  ngOnInit() {
+    this.updateChunkSize();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['elements']) {
@@ -24,11 +29,30 @@ export class ProductListComponent implements OnChanges {
     }
   }
 
+  @HostListener('window:resize')
+  onResize() {
+    const oldSize = this.chunkSize;
+    this.updateChunkSize();
+    if (oldSize !== this.chunkSize) {
+      this.chunkElements();
+    }
+  }
+
+  private updateChunkSize() {
+    const width = window.innerWidth;
+    if (width < 700) {
+      this.chunkSize = 1;
+    } else if (width < 1100) {
+      this.chunkSize = 2;
+    } else {
+      this.chunkSize = 3;
+    }
+  }
+
   private chunkElements() {
-    const size = 3;
     this.rowElements = [];
-    for (let i = 0; i < this.elements.length; i += size) {
-      this.rowElements.push(this.elements.slice(i, i + size));
+    for (let i = 0; i < this.elements.length; i += this.chunkSize) {
+      this.rowElements.push(this.elements.slice(i, i + this.chunkSize));
     }
   }
 

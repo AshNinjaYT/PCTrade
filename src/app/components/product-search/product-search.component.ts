@@ -31,7 +31,19 @@ export class ProductSearchComponent implements OnInit {
 
   constructor() {
     // Escuchamos cuando cambian las categorías en el servicio para reconstruir el formulario
-    // Importamos effect de @angular/core al principio del archivo (mejor práctica)
+    effect(() => {
+      const cats = this.categories();
+      if (this.cercaForm && cats.length > 0) {
+        this.reconstruirCategories(cats);
+        
+        // Nos volvemos a suscribir a los cambios del nuevo array
+        this.cercaForm.get('categoriesArray')?.valueChanges
+          .pipe(
+            takeUntilDestroyed(this.destroyRef)
+          )
+          .subscribe(() => this.aplicarCerca());
+      }
+    });
   }
 
   ngOnInit() {
@@ -51,21 +63,6 @@ export class ProductSearchComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => this.aplicarCerca());
-
-    // Escuchamos cuando cambian las categorías en el servicio para reconstruir el formulario
-    effect(() => {
-      const cats = this.categories();
-      if (this.cercaForm && cats.length > 0) {
-        this.reconstruirCategories(cats);
-        
-        // Nos volvemos a suscribir a los cambios del nuevo array
-        this.cercaForm.get('categoriesArray')?.valueChanges
-          .pipe(
-            takeUntilDestroyed(this.destroyRef)
-          )
-          .subscribe(() => this.aplicarCerca());
-      }
-    });
   }
 
   // Función unificada para aplicar el estado actual de los filtros
